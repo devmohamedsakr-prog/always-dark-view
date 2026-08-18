@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { Project } from "@/data/projects";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { IMAGE_SIZES } from "@/lib/image";
@@ -19,15 +19,22 @@ interface ProjectCardProps {
 export function ProjectCard({ project, index, view = "grid" }: ProjectCardProps) {
   const { tr } = useI18n();
   const { projectTitle, projectDescription, projectType, projectStatus } = useLocalizedContent();
+  const reduce = useReducedMotion();
   if (view === "list") return <ProjectRow project={project} index={index} />;
 
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.97 }}
-      transition={{ duration: 0.35, delay: Math.min(index, 6) * 0.04 }}
+      initial={reduce ? { opacity: 1 } : { opacity: 0, y: 16, scale: 0.98 }}
+      animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+      exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97 }}
+      transition={{
+        duration: 0.35,
+        delay: reduce ? 0 : Math.min(index, 6) * 0.04,
+        layout: reduce
+          ? { duration: 0 }
+          : { type: "spring", stiffness: 120, damping: 18, mass: 0.6 },
+      }}
       className="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-card border border-border p-6 shadow-[var(--shadow-glow)] transition-all duration-300 hover:-translate-y-2 hover:border-border/60 text-card-foreground"
     >
       <ProjectCardImage project={project} priority={index < 3} />
@@ -84,13 +91,20 @@ export function ProjectCard({ project, index, view = "grid" }: ProjectCardProps)
 function ProjectRow({ project, index }: { project: Project; index: number }) {
   const { tr } = useI18n();
   const { projectTitle, projectDescription, projectType } = useLocalizedContent();
+  const reduce = useReducedMotion();
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.98 }}
-      transition={{ duration: 0.3, delay: Math.min(index, 6) * 0.03 }}
+      initial={reduce ? { opacity: 1 } : { opacity: 0, y: 12, scale: 0.98 }}
+      animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+      exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+      transition={{
+        duration: 0.3,
+        delay: reduce ? 0 : Math.min(index, 6) * 0.03,
+        layout: reduce
+          ? { duration: 0 }
+          : { type: "spring", stiffness: 120, damping: 18, mass: 0.6 },
+      }}
       className="group grid grid-cols-1 gap-5 overflow-hidden rounded-2xl bg-card p-5 border border-border shadow-lg text-card-foreground transition-all duration-300 hover:bg-card/90 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center"
     >
       <div className="overflow-hidden rounded-xl">
