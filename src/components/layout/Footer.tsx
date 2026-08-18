@@ -42,20 +42,7 @@ export function Footer() {
   const { tr } = useI18n();
 
   return (
-    <footer className="w-full text-foreground font-sans select-none overflow-hidden pt-2">
-      {/* Stepped Top Edge Transition */}
-      <div className="w-full leading-none -mb-[1px] bg-transparent">
-        <svg
-          viewBox="0 0 1440 40"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-7 sm:h-9 md:h-11 fill-background"
-          preserveAspectRatio="none"
-        >
-          <path d="M0 40 V24 H160 C195 24 210 0 245 0 H1195 C1230 0 1245 24 1280 24 H1440 V40 Z" />
-        </svg>
-      </div>
-
+    <footer className="w-full text-foreground font-sans select-none overflow-hidden">
       {/* Main Footer Container */}
       <div className="w-full bg-background pt-1 pb-10 px-4 sm:px-8 md:px-12">
         <div className="mx-auto max-w-6xl">
