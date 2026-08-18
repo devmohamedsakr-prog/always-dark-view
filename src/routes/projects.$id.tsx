@@ -187,7 +187,7 @@ export function ProjectDetail() {
             </div>
 
             {/* Right Column: Sticky Sidebar */}
-            <aside className="lg:col-span-4 space-y-8 lg:sticky lg:top-32">
+            <aside className="lg:col-span-4 space-y-8 lg:sticky lg:top-[calc(var(--nav-h,5.5rem)+2rem)]">
               
               {/* Project Brief Card */}
               <div className="bg-card border border-border rounded-2xl p-8 md:p-10 shadow-2xl relative overflow-hidden">
