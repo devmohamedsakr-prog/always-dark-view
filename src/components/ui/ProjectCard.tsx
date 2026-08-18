@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { Project } from "@/data/projects";
 import { SmartImage } from "@/components/ui/SmartImage";
 import { IMAGE_SIZES } from "@/lib/image";
