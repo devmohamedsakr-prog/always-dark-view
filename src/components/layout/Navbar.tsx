@@ -18,6 +18,8 @@ export function Navbar() {
     { key: "nav.contact", to: "/contact" },
   ] as const;
 
+  const headerRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
@@ -25,8 +27,35 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  /**
+   * Publish the live header height as `--nav-h` so sticky page toolbars can
+   * park right under the bar — it shrinks on scroll, so a fixed offset would
+   * leave a big gap at the top and a tight one after scrolling.
+   */
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const write = () => {
+      document.documentElement.style.setProperty(
+        "--nav-h",
+        `${Math.round(el.getBoundingClientRect().height)}px`,
+      );
+    };
+    write();
+    const ro = new ResizeObserver(write);
+    ro.observe(el);
+    const id = window.setInterval(write, 100);
+    const stop = window.setTimeout(() => window.clearInterval(id), 700);
+    return () => {
+      ro.disconnect();
+      window.clearInterval(id);
+      window.clearTimeout(stop);
+    };
+  }, [scrolled, open]);
+
   return (
     <header
+      ref={headerRef}
       className={cn(
         "fixed inset-x-0 top-0 z-50 flex justify-center pointer-events-none transition-[padding] duration-500 ease-out",
         scrolled ? "py-1.5" : "py-4"
