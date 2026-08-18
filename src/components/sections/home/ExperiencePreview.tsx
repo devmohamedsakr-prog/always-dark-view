@@ -143,7 +143,7 @@ export function ExperiencePreview() {
                 <motion.article
                   key={item.id}
                   variants={rowVariants}
-                  whileHover={reduce || featured ? undefined : { y: -3 }}
+                  whileHover={reduce || featured ? {} : { y: -3 }}
                   transition={{ duration: 0.25, ease: EASE }}
                   className={`overflow-hidden rounded-2xl ${
                     featured
