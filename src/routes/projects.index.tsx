@@ -77,6 +77,7 @@ type SortValue = (typeof SORTS)[number]["value"];
 export function ProjectsPage() {
   const { tr } = useI18n();
   const { category: trCategory } = useLocalizedContent();
+  const reduce = useReducedMotion();
   const [filter, setFilter] = useState<(typeof projectFilters)[number]>("All");
   const [searchQuery, setSearchQuery] = useState("");
   const deferredQuery = useDeferredValue(searchQuery);
