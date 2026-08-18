@@ -58,8 +58,9 @@ export function ExperiencePreview() {
     >
       <div className="mx-auto max-w-5xl">
         <motion.div
-          initial={reduce ? undefined : { opacity: 0, y: 24 }}
-          whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+          initial={reduce ? false : { opacity: 0, y: 24 }}
+          whileInView={reduce ? {} : { opacity: 1, y: 0 }}
+
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.5, ease: EASE }}
         >
