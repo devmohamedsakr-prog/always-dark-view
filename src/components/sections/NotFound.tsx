@@ -68,7 +68,7 @@ export function NotFound() {
       <Navbar />
       <main
         ref={ref}
-        className="relative flex min-h-[calc(100vh-6rem)] items-center justify-center overflow-hidden bg-background px-5 pb-24 pt-40"
+        className="relative flex flex-col items-center justify-start overflow-hidden bg-background px-5 pb-12 pt-36"
       >
         {/* ambient layer */}
         <div aria-hidden className="pointer-events-none absolute inset-0">
