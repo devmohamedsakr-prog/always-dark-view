@@ -276,20 +276,33 @@ export function ProjectsPage() {
             ) : paginatedProjects.length > 0 ? (
               <>
                 <h2 className="sr-only">{tr("projects.index.results")}</h2>
-                <motion.div
-                  layout
-                  className={
-                    view === "grid"
-                      ? "mb-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-                      : "mb-12 flex flex-col gap-4"
-                  }
-                >
-                  <AnimatePresence mode="popLayout">
-                    {paginatedProjects.map((project, index) => (
-                      <ProjectCard key={project.id} project={project} index={index} view={view} />
-                    ))}
-                  </AnimatePresence>
-                </motion.div>
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={`${sort}-${view}`}
+                    layout
+                    initial={reduce ? { opacity: 1 } : { opacity: 0, y: 18, scale: 0.98 }}
+                    animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+                    exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12, scale: 0.98 }}
+                    transition={{
+                      duration: 0.35,
+                      ease: [0.22, 1, 0.36, 1],
+                      layout: reduce
+                        ? { duration: 0 }
+                        : { type: "spring", stiffness: 120, damping: 18, mass: 0.6 },
+                    }}
+                    className={
+                      view === "grid"
+                        ? "mb-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+                        : "mb-12 flex flex-col gap-4"
+                    }
+                  >
+                    <AnimatePresence mode="popLayout">
+                      {paginatedProjects.map((project, index) => (
+                        <ProjectCard key={project.id} project={project} index={index} view={view} />
+                      ))}
+                    </AnimatePresence>
+                  </motion.div>
+                </AnimatePresence>
 
                 {totalPages > 1 && (
                   <nav aria-label={tr("projects.index.pagination")} className="flex flex-wrap items-center justify-center gap-3">
