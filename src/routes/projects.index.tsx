@@ -146,7 +146,11 @@ export function ProjectsPage() {
             </Reveal>
 
             {/* Toolbar: search + sort + view mode */}
-            <div className="sticky top-24 z-20 -mx-5 mb-6 px-5 py-2">
+            <div
+              className="sticky z-20 -mx-5 mb-6 px-5 py-2"
+              style={{ top: "calc(var(--nav-h, 5.5rem) + 0.5rem)" }}
+            >
+
               <div className="rounded-2xl bg-card p-3.5 border border-border shadow-[var(--shadow-glow)] grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto_auto] md:items-center">
                 {/* Search Box */}
                 <div className="relative min-w-0">
