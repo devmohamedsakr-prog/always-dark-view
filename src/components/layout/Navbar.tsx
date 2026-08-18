@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Menu, X, Github, Linkedin, Sun, Moon, Globe } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useTheme } from "@/lib/theme";
