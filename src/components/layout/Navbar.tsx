@@ -73,7 +73,7 @@ export function Navbar() {
         {/* Left: Logo Badge Pill */}
         <Link
           to="/"
-          className="group flex items-center gap-2.5 rounded-2xl bg-card text-card-foreground px-3 py-1.5 shadow-sm border border-border transition-all duration-500 hover:scale-105 select-none"
+          className="group flex items-center gap-2 rounded-2xl bg-card text-card-foreground px-2.5 py-1 shadow-sm border border-border transition-all duration-500 hover:scale-105 select-none"
           aria-label={tr("common.home")}
         >
           {/* Prefix dots */}
@@ -86,14 +86,14 @@ export function Navbar() {
           </div>
 
           {/* MS Red Square */}
-          <div className="grid place-items-center rounded-[5px] bg-[#FF4B35] px-2 py-0.5 shadow-sm">
-            <span className="keep-latin font-['Oswald',sans-serif] text-sm font-bold leading-none text-white tracking-tighter">
+          <div className="grid place-items-center rounded-[4px] bg-[#FF4B35] px-1.5 py-0.5 shadow-sm">
+            <span className="keep-latin font-['Oswald',sans-serif] text-xs font-bold leading-none text-white tracking-tighter">
               MS
             </span>
           </div>
 
           {/* MOSTAFA SAMIR Text */}
-          <div className="keep-latin flex flex-col text-start font-sans text-[9px] font-black tracking-[0.2em] text-foreground leading-tight uppercase">
+          <div className="keep-latin flex flex-col text-start font-sans text-[8px] font-black tracking-[0.2em] text-foreground leading-tight uppercase">
             <span>MOSTAFA</span>
             <span>SAMIR</span>
           </div>
