@@ -19,15 +19,22 @@ interface ProjectCardProps {
 export function ProjectCard({ project, index, view = "grid" }: ProjectCardProps) {
   const { tr } = useI18n();
   const { projectTitle, projectDescription, projectType, projectStatus } = useLocalizedContent();
+  const reduce = useReducedMotion();
   if (view === "list") return <ProjectRow project={project} index={index} />;
 
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.97 }}
-      transition={{ duration: 0.35, delay: Math.min(index, 6) * 0.04 }}
+      initial={reduce ? { opacity: 1 } : { opacity: 0, y: 16, scale: 0.98 }}
+      animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+      exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97 }}
+      transition={{
+        duration: 0.35,
+        delay: reduce ? 0 : Math.min(index, 6) * 0.04,
+        layout: reduce
+          ? { duration: 0 }
+          : { type: "spring", stiffness: 120, damping: 18, mass: 0.6 },
+      }}
       className="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-card border border-border p-6 shadow-[var(--shadow-glow)] transition-all duration-300 hover:-translate-y-2 hover:border-border/60 text-card-foreground"
     >
       <ProjectCardImage project={project} priority={index < 3} />
