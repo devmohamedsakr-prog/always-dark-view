@@ -85,8 +85,8 @@ export function Testimonials() {
           {/* Left Column: Title & Controls */}
           <div className="lg:col-span-4 flex flex-col justify-between h-full">
             <motion.div
-              initial={reduce ? undefined : { opacity: 0, y: 24 }}
-              whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
+              initial={reduce ? {} : { opacity: 0, y: 24 }}
+              whileInView={reduce ? {} : { opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.6, ease: EASE }}
             >
@@ -96,9 +96,9 @@ export function Testimonials() {
                   <AnimatePresence mode="popLayout" initial={false}>
                     <motion.span
                       key={activeIdx}
-                      initial={reduce ? undefined : { y: 8, opacity: 0 }}
+                      initial={reduce ? {} : { y: 8, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
-                      exit={reduce ? undefined : { y: -8, opacity: 0 }}
+                      exit={reduce ? {} : { y: -8, opacity: 0 }}
                       transition={{ duration: 0.25, ease: EASE }}
                       className="absolute inset-0 text-primary"
                     >
@@ -118,8 +118,8 @@ export function Testimonials() {
             <div className="flex items-center gap-3">
               <motion.button
                 onClick={prev}
-                whileTap={reduce ? undefined : { scale: 0.9 }}
-                whileHover={reduce ? undefined : { y: -2 }}
+                whileTap={reduce ? {} : { scale: 0.9 }}
+                whileHover={reduce ? {} : { y: -2 }}
                 className="grid size-11 place-items-center rounded-xl bg-foreground/10 border border-border text-foreground hover:bg-foreground/20 transition-colors"
                 aria-label={tr("awards.prev")}
               >
@@ -127,8 +127,8 @@ export function Testimonials() {
               </motion.button>
               <motion.button
                 onClick={next}
-                whileTap={reduce ? undefined : { scale: 0.9 }}
-                whileHover={reduce ? undefined : { y: -2 }}
+                whileTap={reduce ? {} : { scale: 0.9 }}
+                whileHover={reduce ? {} : { y: -2 }}
                 className="grid size-11 place-items-center rounded-xl bg-foreground/10 border border-border text-foreground hover:bg-foreground/20 transition-colors"
                 aria-label={tr("awards.next")}
               >
@@ -247,7 +247,7 @@ function FeaturedCard({
       </span>
 
       <motion.div
-        whileHover={reduce ? undefined : { rotate: -6, scale: 1.06 }}
+        whileHover={reduce ? {} : { rotate: -6, scale: 1.06 }}
         transition={{ duration: 0.35, ease: EASE }}
         className="grid size-16 place-items-center rounded-xl bg-foreground/15 text-foreground mb-6 border border-border shadow-inner"
       >
@@ -351,7 +351,7 @@ function SideCard({
       initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: EASE, delay: reduce ? 0 : 0.08 * index }}
-      whileHover={reduce ? undefined : { y: -6 }}
+      whileHover={reduce ? {} : { y: -6 }}
       className="rounded-2xl bg-card p-6 border border-border shadow-md flex flex-col items-center text-center hover:bg-card/90 transition-colors"
     >
       <div className="grid size-12 place-items-center rounded-xl bg-foreground/10 text-foreground mb-3">
