@@ -100,12 +100,12 @@ export function Navbar() {
         </Link>
 
         {/* Center: Nav Links */}
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-6 md:flex">
           {navLinks.map((l) => (
             <Link
               key={l.key}
               to={l.to}
-              className="font-sans text-xs font-extrabold tracking-[0.25em] text-foreground transition-opacity hover:opacity-75 uppercase"
+              className="font-sans text-[11px] font-extrabold tracking-[0.25em] text-foreground transition-opacity hover:opacity-75 uppercase"
             >
               {tr(l.key)}
             </Link>
