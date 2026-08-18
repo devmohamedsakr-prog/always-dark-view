@@ -1,6 +1,6 @@
 import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { projects, projectFilters } from "@/data";
 import { Reveal } from "@/components/ui/Reveal";
 import { ProjectCard, type ProjectView } from "@/components/ui/ProjectCard";
