@@ -58,7 +58,7 @@ export function Navbar() {
       ref={headerRef}
       className={cn(
         "fixed inset-x-0 top-0 z-50 flex justify-center pointer-events-none transition-[padding] duration-500 ease-out",
-        scrolled ? "py-1.5" : "py-4"
+        scrolled ? "py-1" : "py-2.5"
       )}
     >
       <nav
@@ -66,14 +66,14 @@ export function Navbar() {
           "pointer-events-auto flex items-center justify-between rounded-2xl border transition-all duration-500 ease-out",
           "w-[calc(100%-1.5rem)] max-w-5xl",
           scrolled
-            ? "bg-background/75 backdrop-blur-xl shadow-[0_8px_30px_-6px_rgba(0,0,0,0.25)] border-border/70 py-2 px-4"
-            : "bg-background/40 backdrop-blur-md shadow-[0_4px_20px_-8px_rgba(0,0,0,0.15)] border-border/40 py-3 px-5"
+            ? "bg-background/75 backdrop-blur-xl shadow-[0_6px_24px_-6px_rgba(0,0,0,0.25)] border-border/70 py-1.5 px-3"
+            : "bg-background/40 backdrop-blur-md shadow-[0_4px_20px_-8px_rgba(0,0,0,0.15)] border-border/40 py-2 px-4"
         )}
       >
         {/* Left: Logo Badge Pill */}
         <Link
           to="/"
-          className="group flex items-center gap-2.5 rounded-2xl bg-card text-card-foreground px-3 py-1.5 shadow-sm border border-border transition-all duration-500 hover:scale-105 select-none"
+          className="group flex items-center gap-2 rounded-2xl bg-card text-card-foreground px-2.5 py-1 shadow-sm border border-border transition-all duration-500 hover:scale-105 select-none"
           aria-label={tr("common.home")}
         >
           {/* Prefix dots */}
@@ -86,26 +86,26 @@ export function Navbar() {
           </div>
 
           {/* MS Red Square */}
-          <div className="grid place-items-center rounded-[5px] bg-[#FF4B35] px-2 py-0.5 shadow-sm">
-            <span className="keep-latin font-['Oswald',sans-serif] text-sm font-bold leading-none text-white tracking-tighter">
+          <div className="grid place-items-center rounded-[4px] bg-[#FF4B35] px-1.5 py-0.5 shadow-sm">
+            <span className="keep-latin font-['Oswald',sans-serif] text-xs font-bold leading-none text-white tracking-tighter">
               MS
             </span>
           </div>
 
           {/* MOSTAFA SAMIR Text */}
-          <div className="keep-latin flex flex-col text-start font-sans text-[9px] font-black tracking-[0.2em] text-foreground leading-tight uppercase">
+          <div className="keep-latin flex flex-col text-start font-sans text-[8px] font-black tracking-[0.2em] text-foreground leading-tight uppercase">
             <span>MOSTAFA</span>
             <span>SAMIR</span>
           </div>
         </Link>
 
         {/* Center: Nav Links */}
-        <div className="hidden items-center gap-8 md:flex">
+        <div className="hidden items-center gap-6 md:flex">
           {navLinks.map((l) => (
             <Link
               key={l.key}
               to={l.to}
-              className="font-sans text-xs font-extrabold tracking-[0.25em] text-foreground transition-opacity hover:opacity-75 uppercase"
+              className="font-sans text-[11px] font-extrabold tracking-[0.25em] text-foreground transition-opacity hover:opacity-75 uppercase"
             >
               {tr(l.key)}
             </Link>
@@ -113,22 +113,22 @@ export function Navbar() {
         </div>
 
         {/* Right: Controls & Social Icons */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
             aria-label={tr("common.theme")}
-            className="grid size-9 place-items-center rounded-2xl bg-foreground/10 border border-border text-foreground transition-all hover:bg-foreground/20 hover:scale-105"
+            className="grid size-8 place-items-center rounded-2xl bg-foreground/10 border border-border text-foreground transition-all hover:bg-foreground/20 hover:scale-105"
             title={tr("common.theme")}
           >
-            {theme === "dark" ? <Sun className="size-4 text-[#FFD000]" /> : <Moon className="size-4 text-[#FF4B35]" />}
+            {theme === "dark" ? <Sun className="size-3.5 text-[#FFD000]" /> : <Moon className="size-3.5 text-[#FF4B35]" />}
           </button>
 
           {/* Language Switcher */}
           <button
             onClick={toggleLang}
             aria-label={tr("common.language")}
-            className="flex h-9 items-center gap-1.5 rounded-2xl bg-foreground/10 border border-border px-3 text-xs font-extrabold text-foreground transition-all hover:bg-foreground/20 hover:scale-105"
+            className="flex h-8 items-center gap-1.5 rounded-2xl bg-foreground/10 border border-border px-2.5 text-[11px] font-extrabold text-foreground transition-all hover:bg-foreground/20 hover:scale-105"
             title={tr("common.language")}
           >
             <Globe className="size-3.5 text-[#FF4B35]" />
@@ -141,19 +141,19 @@ export function Navbar() {
               href="https://github.com/Mostafa-SAID7"
               target="_blank"
               rel="noopener noreferrer"
-              className="grid size-9 place-items-center rounded-2xl bg-foreground/10 border border-border text-foreground transition-all hover:bg-foreground/20 hover:scale-105"
+              className="grid size-8 place-items-center rounded-2xl bg-foreground/10 border border-border text-foreground transition-all hover:bg-foreground/20 hover:scale-105"
               aria-label="GitHub Profile"
             >
-              <Github className="size-4" />
+              <Github className="size-3.5" />
             </a>
             <a
               href="https://linkedin.com/in/mostafasamirsaid"
               target="_blank"
               rel="noopener noreferrer"
-              className="grid size-9 place-items-center rounded-2xl bg-foreground/10 border border-border text-foreground transition-all hover:bg-foreground/20 hover:scale-105"
+              className="grid size-8 place-items-center rounded-2xl bg-foreground/10 border border-border text-foreground transition-all hover:bg-foreground/20 hover:scale-105"
               aria-label="LinkedIn Profile"
             >
-              <Linkedin className="size-4" />
+              <Linkedin className="size-3.5" />
             </a>
           </div>
 
@@ -161,9 +161,9 @@ export function Navbar() {
           <button
             onClick={() => setOpen((o) => !o)}
             aria-label={tr("common.menu")}
-            className="grid size-10 place-items-center rounded-2xl bg-foreground/10 border border-border text-foreground md:hidden"
+            className="grid size-9 place-items-center rounded-2xl bg-foreground/10 border border-border text-foreground md:hidden"
           >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+            {open ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
         </div>
       </nav>

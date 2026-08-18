@@ -129,17 +129,17 @@ export function ProjectsPage() {
     <div className="flex min-h-screen flex-col select-none">
       <Navbar />
       <main className="flex-1">
-        <section className="pb-16 pt-28 md:pb-20 md:pt-32">
+        <section className="pb-16 pt-24 md:pb-20 md:pt-28">
           <div className="mx-auto max-w-6xl px-5">
             <Reveal>
-              <header className="mb-10 max-w-2xl text-center md:text-start">
-                <span className="rounded-xl bg-foreground/10 px-4 py-1.5 font-sans text-xs font-black tracking-[0.25em] text-primary uppercase border border-border inline-block mb-3">
+              <header className="mb-8 max-w-2xl text-center md:text-start">
+                <span className="rounded-xl bg-foreground/10 px-3 py-1 font-sans text-[11px] font-black tracking-[0.25em] text-primary uppercase border border-border inline-block mb-2">
                   {tr("projects.index.eyebrow")}
                 </span>
-                <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-foreground tracking-tight uppercase">
+                <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground tracking-tight uppercase">
                   {tr("projects.index.title")}
                 </h1>
-                <p className="mt-3 font-sans text-sm sm:text-base text-foreground/90">
+                <p className="mt-2 font-sans text-sm text-foreground/90">
                   {tr("projects.index.desc")}
                 </p>
               </header>
@@ -147,31 +147,31 @@ export function ProjectsPage() {
 
             {/* Toolbar: search + sort + view mode */}
             <div
-              className="sticky z-20 -mx-5 mb-6 px-5 py-2"
-              style={{ top: "calc(var(--nav-h, 5.5rem) + 0.5rem)" }}
+              className="sticky z-20 -mx-5 mb-5 px-5 py-1.5"
+              style={{ top: "calc(var(--nav-h, 4.5rem) + 0.25rem)" }}
             >
 
-              <div className="rounded-2xl bg-card p-3.5 border border-border shadow-[var(--shadow-glow)] grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto_auto] md:items-center">
+              <div className="rounded-2xl bg-card p-2.5 border border-border shadow-[var(--shadow-glow)] grid grid-cols-1 gap-2 md:grid-cols-[minmax(0,1fr)_auto_auto] md:items-center">
                 {/* Search Box */}
                 <div className="relative min-w-0">
                   <label htmlFor="project-search" className="sr-only">
                     {tr("projects.index.sort")}
                   </label>
-                  <Search className="pointer-events-none absolute start-4 top-1/2 size-4 -translate-y-1/2 text-card-foreground/70" />
+                  <Search className="pointer-events-none absolute start-3.5 top-1/2 size-4 -translate-y-1/2 text-card-foreground/70" />
                   <input
                     id="project-search"
                     type="search"
                     placeholder={tr("projects.index.searchPlaceholder")}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="h-11 w-full rounded-xl border border-border bg-foreground/10 ps-11 pe-9 text-sm text-card-foreground placeholder:text-card-foreground/60 transition-all focus:border-foreground/40 focus:bg-foreground/15 focus:outline-none"
+                    className="h-9 w-full rounded-xl border border-border bg-foreground/10 ps-10 pe-9 text-sm text-card-foreground placeholder:text-card-foreground/60 transition-all focus:border-foreground/40 focus:bg-foreground/15 focus:outline-none"
                   />
                   {searchQuery && (
                     <button
                       type="button"
                       onClick={() => setSearchQuery("")}
                       aria-label={tr("projects.index.clear")}
-                      className="absolute end-3 top-1/2 -translate-y-1/2 rounded-xl p-1 text-card-foreground/70 hover:text-card-foreground transition-colors"
+                      className="absolute end-2.5 top-1/2 -translate-y-1/2 rounded-xl p-1 text-card-foreground/70 hover:text-card-foreground transition-colors"
                     >
                       <X className="size-4" />
                     </button>
@@ -187,7 +187,7 @@ export function ProjectsPage() {
                     <SelectTrigger
                       id="project-sort"
                       aria-label={tr("projects.index.sort")}
-                      className="h-11 w-full gap-2 rounded-xl border-border bg-foreground/10 px-3.5 text-sm font-bold text-card-foreground shadow-none transition-all hover:bg-foreground/15 focus:ring-0 md:w-48"
+                      className="h-9 w-full gap-2 rounded-xl border-border bg-foreground/10 px-3 text-sm font-bold text-card-foreground shadow-none transition-all hover:bg-foreground/15 focus:ring-0 md:w-44"
                     >
                       <div className="flex min-w-0 flex-1 items-center gap-2 whitespace-nowrap text-start">
                         <ArrowUpDown className="size-4 shrink-0 text-primary" />
@@ -212,7 +212,7 @@ export function ProjectsPage() {
                 <div
                   role="group"
                   aria-label={tr("projects.index.viewMode")}
-                  className="flex h-11 shrink-0 items-center gap-1 rounded-xl border border-border bg-foreground/10 p-1"
+                  className="flex h-9 shrink-0 items-center gap-1 rounded-xl border border-border bg-foreground/10 p-1"
                 >
                   <ViewButton active={view === "grid"} onClick={() => setView("grid")} label={tr("projects.index.grid")}>
                     <LayoutGrid className="size-4" />
