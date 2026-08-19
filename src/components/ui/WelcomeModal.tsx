@@ -1,7 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles, X } from "lucide-react";
-import { motion, AnimatePresence, useReducedMotion, type Transition } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+  useMotionValue,
+  useTransform,
+  animate,
+  type Transition,
+} from "framer-motion";
 import { useI18n } from "@/lib/i18n";
 import { LottieIcon } from "@/components/ui/LottieIcon";
 
@@ -10,6 +18,7 @@ const DELAY_MS = 10_000;
 const AUTO_CLOSE_MS = 5_000;
 const RING_RADIUS = 54;
 const CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
+
 
 /**
  * Welcome invitation that appears once per session, 10s after the visitor
@@ -21,8 +30,11 @@ export function WelcomeModal() {
   const { tr, dir } = useI18n();
   const prefersReducedMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
-  const [remaining, setRemaining] = useState(AUTO_CLOSE_MS);
+  const [seconds, setSeconds] = useState(AUTO_CLOSE_MS / 1000);
   const [paused, setPaused] = useState(false);
+  const progress = useMotionValue(1);
+  const dashOffset = useTransform(progress, (v: number) => CIRCUMFERENCE * (1 - v));
+
   const closeRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<Element | null>(null);
@@ -100,38 +112,47 @@ export function WelcomeModal() {
     };
   }, [open, close]);
 
-  // Countdown: a rAF loop so the progress bar moves per animation frame
-  // (smooth) instead of stepping in coarse interval jumps.
+  // Countdown driven by a motion value: the bar/ring interpolate on the
+  // compositor thread (perfectly smooth) while React only re-renders once
+  // per whole second for the visible digit.
+  useEffect(() => {
+    if (!open) return;
+    progress.set(1);
+    setSeconds(AUTO_CLOSE_MS / 1000);
+  }, [open, progress]);
+
+  useEffect(() => {
+    const unsubscribe = progress.on("change", (value) => {
+      const next = Math.max(0, Math.ceil((value * AUTO_CLOSE_MS) / 1000));
+      setSeconds((current) => (current === next ? current : next));
+    });
+    return unsubscribe;
+  }, [progress]);
+
   useEffect(() => {
     if (!open || paused) return;
-    let frame = 0;
-    let last = performance.now();
-
-    const step = (now: number) => {
-      const delta = now - last;
-      last = now;
-      setRemaining((value) => Math.max(0, value - delta));
-      frame = requestAnimationFrame(step);
-    };
-
-    frame = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frame);
-  }, [open, paused]);
-
-  useEffect(() => {
-    if (open && remaining === 0) close();
-  }, [open, remaining, close]);
+    const left = progress.get() * AUTO_CLOSE_MS;
+    if (left <= 0) {
+      close();
+      return;
+    }
+    const controls = animate(progress, 0, {
+      duration: left / 1000,
+      ease: "linear",
+      onComplete: close,
+    });
+    return () => controls.stop();
+  }, [open, paused, progress, close]);
 
   if (!open) return null;
 
-  const progress = (remaining / AUTO_CLOSE_MS) * 100;
-  const seconds = Math.ceil(remaining / 1000);
   const hold = () => setPaused(true);
   const release = () => setPaused(false);
 
   const transition: Transition = prefersReducedMotion
     ? { duration: 0 }
     : { duration: 0.35, ease: [0.22, 1, 0.36, 1] };
+
 
   return (
     <AnimatePresence>
@@ -183,26 +204,31 @@ export function WelcomeModal() {
 
           {/* Two-column grid on desktop: visual rail + message column */}
           <div className="relative grid gap-6 p-6 pb-10 text-center sm:p-8 sm:pb-12 md:grid-cols-[minmax(0,13rem)_minmax(0,1fr)] md:items-stretch md:gap-8 md:p-10 md:pb-14 md:text-start">
-            {/* Visual rail: top half Lottie, bottom half large counter */}
-            <div className="flex min-h-[16rem] flex-col items-center gap-4 md:min-h-full">
+            {/* Visual rail: exact top half Lottie, bottom half large counter */}
+            <div className="grid min-h-[22rem] grid-rows-2 items-center justify-items-center md:min-h-full">
               {/* Top half — Lottie */}
-              <div className="flex flex-1 items-center justify-center">
+              <div className="flex h-full w-full flex-col items-center justify-center gap-3">
                 <LottieIcon
                   src="/lottie/welcome-hello.lottie"
-                  className="h-28 w-36 sm:h-32 sm:w-40 md:h-40 md:w-48"
+                  className="h-full max-h-[8.5rem] w-auto min-w-32"
                   fallback={<Sparkles className="h-12 w-12 text-accent" />}
                 />
+                <span className="chip">
+                  <Sparkles className="h-3.5 w-3.5 shrink-0" />
+                  {tr("welcome.eyebrow")}
+                </span>
               </div>
+
 
               {/* Bottom half — large countdown counter */}
               <motion.div
                 aria-hidden="true"
-                className="relative flex flex-1 flex-col items-center justify-center"
+                className="relative flex h-full w-full flex-col items-center justify-center gap-2"
                 initial={false}
                 animate={paused ? { scale: 1.02 } : { scale: 1 }}
                 transition={{ duration: 0.25 }}
               >
-                <div className="relative grid h-28 w-28 place-items-center sm:h-32 sm:w-32 md:h-36 md:w-36">
+                <div className="relative grid aspect-square h-full max-h-[8.5rem] place-items-center">
                   {/* Background track */}
                   <svg
                     viewBox={`0 0 ${RING_RADIUS * 2 + 12} ${RING_RADIUS * 2 + 12}`}
@@ -223,13 +249,10 @@ export function WelcomeModal() {
                       strokeWidth="6"
                       strokeLinecap="round"
                       strokeDasharray={CIRCUMFERENCE}
-                      initial={{ strokeDashoffset: 0 }}
-                      animate={{
-                        strokeDashoffset: CIRCUMFERENCE * (1 - progress / 100),
-                      }}
-                      transition={{ duration: 0, ease: "linear" }}
+                      style={{ strokeDashoffset: dashOffset }}
                     />
                   </svg>
+
 
                   {/* Center number with cross-fade on change */}
                   <div className="relative flex items-center justify-center">
@@ -258,12 +281,8 @@ export function WelcomeModal() {
                   {paused ? tr("welcome.paused") : tr("welcome.autocloseLabel")}
                 </motion.span>
               </motion.div>
-
-              <span className="chip">
-                <Sparkles className="h-3.5 w-3.5 shrink-0" />
-                {tr("welcome.eyebrow")}
-              </span>
             </div>
+
 
             <div className="min-w-0">
               <h2 id="welcome-modal-title" className="type-h2 text-balance text-foreground">
@@ -314,16 +333,15 @@ export function WelcomeModal() {
             aria-label={tr("welcome.autoclose").replace("{s}", String(seconds))}
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-valuenow={Math.round(progress)}
-            className="absolute inset-x-0 bottom-0 h-1.5 bg-muted"
+            aria-valuenow={Math.round((seconds / (AUTO_CLOSE_MS / 1000)) * 100)}
+            className="absolute inset-x-0 bottom-0 h-1.5 overflow-hidden bg-muted"
           >
             <motion.div
-              className="h-full origin-left bg-accent rtl:origin-right"
-              style={{ willChange: "transform" }}
-              animate={{ scaleX: progress / 100 }}
-              transition={{ duration: 0, ease: "linear" }}
+              className="h-full w-full origin-left bg-accent rtl:origin-right"
+              style={{ scaleX: progress, willChange: "transform" }}
             />
           </div>
+
         </motion.div>
       </motion.div>
     </AnimatePresence>
