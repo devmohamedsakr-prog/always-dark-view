@@ -30,8 +30,12 @@ export function WelcomeModal() {
   const { tr, dir } = useI18n();
   const prefersReducedMotion = useReducedMotion();
   const [open, setOpen] = useState(false);
-  const [remaining, setRemaining] = useState(AUTO_CLOSE_MS);
+  const [seconds, setSeconds] = useState(AUTO_CLOSE_MS / 1000);
   const [paused, setPaused] = useState(false);
+  const progress = useMotionValue(1);
+  const dashOffset = useTransform(progress, (v: number) => CIRCUMFERENCE * (1 - v));
+  const ariaNow = useTransform(progress, (v: number) => Math.round(v * 100));
+
   const closeRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<Element | null>(null);
