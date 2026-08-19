@@ -208,13 +208,18 @@ export function WelcomeModal() {
             {/* Visual rail: exact top half Lottie, bottom half large counter */}
             <div className="grid min-h-[22rem] grid-rows-2 items-center justify-items-center md:min-h-full">
               {/* Top half — Lottie */}
-              <div className="flex h-full w-full items-center justify-center">
+              <div className="flex h-full w-full flex-col items-center justify-center gap-3">
                 <LottieIcon
                   src="/lottie/welcome-hello.lottie"
-                  className="h-full max-h-[9rem] w-auto min-w-32"
+                  className="h-full max-h-[8.5rem] w-auto min-w-32"
                   fallback={<Sparkles className="h-12 w-12 text-accent" />}
                 />
+                <span className="chip">
+                  <Sparkles className="h-3.5 w-3.5 shrink-0" />
+                  {tr("welcome.eyebrow")}
+                </span>
               </div>
+
 
               {/* Bottom half — large countdown counter */}
               <motion.div
