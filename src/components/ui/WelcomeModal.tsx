@@ -336,16 +336,15 @@ export function WelcomeModal() {
             aria-label={tr("welcome.autoclose").replace("{s}", String(seconds))}
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-valuenow={Math.round(progress)}
-            className="absolute inset-x-0 bottom-0 h-1.5 bg-muted"
+            aria-valuenow={Math.round((seconds / (AUTO_CLOSE_MS / 1000)) * 100)}
+            className="absolute inset-x-0 bottom-0 h-1.5 overflow-hidden bg-muted"
           >
             <motion.div
-              className="h-full origin-left bg-accent rtl:origin-right"
-              style={{ willChange: "transform" }}
-              animate={{ scaleX: progress / 100 }}
-              transition={{ duration: 0, ease: "linear" }}
+              className="h-full w-full origin-left bg-accent rtl:origin-right"
+              style={{ scaleX: progress, willChange: "transform" }}
             />
           </div>
+
         </motion.div>
       </motion.div>
     </AnimatePresence>
