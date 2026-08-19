@@ -1,7 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles, X } from "lucide-react";
-import { motion, AnimatePresence, useReducedMotion, type Transition } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+  useMotionValue,
+  useTransform,
+  animate,
+  type Transition,
+} from "framer-motion";
 import { useI18n } from "@/lib/i18n";
 import { LottieIcon } from "@/components/ui/LottieIcon";
 
@@ -10,6 +18,7 @@ const DELAY_MS = 10_000;
 const AUTO_CLOSE_MS = 5_000;
 const RING_RADIUS = 54;
 const CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
+
 
 /**
  * Welcome invitation that appears once per session, 10s after the visitor
