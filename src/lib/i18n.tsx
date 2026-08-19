@@ -129,6 +129,8 @@ const t: Dict = {
   "welcome.close": { en: "Close welcome message", ar: "إغلاق رسالة الترحيب" },
   "welcome.autoclose": { en: "Closing in {s}s", ar: "الإغلاق بعد {s} ثانية" },
   "welcome.paused": { en: "Paused", ar: "متوقف مؤقتاً" },
+  "welcome.autocloseLabel": { en: "Auto close", ar: "إغلاق تلقائي" },
+
 
 
   "footer.headline1": { en: "You can find", ar: "يمكنك أن تجدني" },
