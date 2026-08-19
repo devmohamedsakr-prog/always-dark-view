@@ -109,38 +109,47 @@ export function WelcomeModal() {
     };
   }, [open, close]);
 
-  // Countdown: a rAF loop so the progress bar moves per animation frame
-  // (smooth) instead of stepping in coarse interval jumps.
+  // Countdown driven by a motion value: the bar/ring interpolate on the
+  // compositor thread (perfectly smooth) while React only re-renders once
+  // per whole second for the visible digit.
+  useEffect(() => {
+    if (!open) return;
+    progress.set(1);
+    setSeconds(AUTO_CLOSE_MS / 1000);
+  }, [open, progress]);
+
+  useEffect(() => {
+    const unsubscribe = progress.on("change", (value) => {
+      const next = Math.max(0, Math.ceil((value * AUTO_CLOSE_MS) / 1000));
+      setSeconds((current) => (current === next ? current : next));
+    });
+    return unsubscribe;
+  }, [progress]);
+
   useEffect(() => {
     if (!open || paused) return;
-    let frame = 0;
-    let last = performance.now();
-
-    const step = (now: number) => {
-      const delta = now - last;
-      last = now;
-      setRemaining((value) => Math.max(0, value - delta));
-      frame = requestAnimationFrame(step);
-    };
-
-    frame = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(frame);
-  }, [open, paused]);
-
-  useEffect(() => {
-    if (open && remaining === 0) close();
-  }, [open, remaining, close]);
+    const left = progress.get() * AUTO_CLOSE_MS;
+    if (left <= 0) {
+      close();
+      return;
+    }
+    const controls = animate(progress, 0, {
+      duration: left / 1000,
+      ease: "linear",
+      onComplete: close,
+    });
+    return () => controls.stop();
+  }, [open, paused, progress, close]);
 
   if (!open) return null;
 
-  const progress = (remaining / AUTO_CLOSE_MS) * 100;
-  const seconds = Math.ceil(remaining / 1000);
   const hold = () => setPaused(true);
   const release = () => setPaused(false);
 
   const transition: Transition = prefersReducedMotion
     ? { duration: 0 }
     : { duration: 0.35, ease: [0.22, 1, 0.36, 1] };
+
 
   return (
     <AnimatePresence>
