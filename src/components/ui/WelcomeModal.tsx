@@ -205,13 +205,13 @@ export function WelcomeModal() {
 
           {/* Two-column grid on desktop: visual rail + message column */}
           <div className="relative grid gap-6 p-6 pb-10 text-center sm:p-8 sm:pb-12 md:grid-cols-[minmax(0,13rem)_minmax(0,1fr)] md:items-stretch md:gap-8 md:p-10 md:pb-14 md:text-start">
-            {/* Visual rail: top half Lottie, bottom half large counter */}
-            <div className="flex min-h-[16rem] flex-col items-center gap-4 md:min-h-full">
+            {/* Visual rail: exact top half Lottie, bottom half large counter */}
+            <div className="grid min-h-[22rem] grid-rows-2 items-center justify-items-center md:min-h-full">
               {/* Top half — Lottie */}
-              <div className="flex flex-1 items-center justify-center">
+              <div className="flex h-full w-full items-center justify-center">
                 <LottieIcon
                   src="/lottie/welcome-hello.lottie"
-                  className="h-28 w-36 sm:h-32 sm:w-40 md:h-40 md:w-48"
+                  className="h-full max-h-[9rem] w-auto min-w-32"
                   fallback={<Sparkles className="h-12 w-12 text-accent" />}
                 />
               </div>
@@ -219,12 +219,12 @@ export function WelcomeModal() {
               {/* Bottom half — large countdown counter */}
               <motion.div
                 aria-hidden="true"
-                className="relative flex flex-1 flex-col items-center justify-center"
+                className="relative flex h-full w-full flex-col items-center justify-center gap-2"
                 initial={false}
                 animate={paused ? { scale: 1.02 } : { scale: 1 }}
                 transition={{ duration: 0.25 }}
               >
-                <div className="relative grid h-28 w-28 place-items-center sm:h-32 sm:w-32 md:h-36 md:w-36">
+                <div className="relative grid aspect-square h-full max-h-[8.5rem] place-items-center">
                   {/* Background track */}
                   <svg
                     viewBox={`0 0 ${RING_RADIUS * 2 + 12} ${RING_RADIUS * 2 + 12}`}
@@ -245,13 +245,10 @@ export function WelcomeModal() {
                       strokeWidth="6"
                       strokeLinecap="round"
                       strokeDasharray={CIRCUMFERENCE}
-                      initial={{ strokeDashoffset: 0 }}
-                      animate={{
-                        strokeDashoffset: CIRCUMFERENCE * (1 - progress / 100),
-                      }}
-                      transition={{ duration: 0, ease: "linear" }}
+                      style={{ strokeDashoffset: dashOffset }}
                     />
                   </svg>
+
 
                   {/* Center number with cross-fade on change */}
                   <div className="relative flex items-center justify-center">
