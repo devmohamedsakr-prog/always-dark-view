@@ -277,12 +277,8 @@ export function WelcomeModal() {
                   {paused ? tr("welcome.paused") : tr("welcome.autocloseLabel")}
                 </motion.span>
               </motion.div>
-
-              <span className="chip">
-                <Sparkles className="h-3.5 w-3.5 shrink-0" />
-                {tr("welcome.eyebrow")}
-              </span>
             </div>
+
 
             <div className="min-w-0">
               <h2 id="welcome-modal-title" className="type-h2 text-balance text-foreground">
