@@ -34,7 +34,6 @@ export function WelcomeModal() {
   const [paused, setPaused] = useState(false);
   const progress = useMotionValue(1);
   const dashOffset = useTransform(progress, (v: number) => CIRCUMFERENCE * (1 - v));
-  const ariaNow = useTransform(progress, (v: number) => Math.round(v * 100));
 
   const closeRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
